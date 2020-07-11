@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>MyApp3</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  </head>
+  <body>
+    <div><input type="button" id="request" value="request" /></div>
+    <p
+      style="background-color: yellow; border: 2px; padding: 10px;"
+      id="paragraph"
+    ></p>
+    <!-- <app-test> </app-test> -->
+    <script>
+      function request() {
+        let promiseObj = new Promise((resolve, reject) => {
+          //asynchronous Call
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              console.log("response", this.responseText);
+              resolve(this.responseText);
+            }
+            if (this.readyState == 4 && this.status == 404) {
+              console.log("response", this.responseText);
+              reject("Error");
+            }
+          };
+          xhttp.open("GET", "getEmployees11", true);
+          xhttp.send();
+        });
+
+        promiseObj.then(
+          (responseText) => {
+            // Success
+            document.getElementById("paragraph").innerHTML = responseText;
+          },
+          () => {
+            document.getElementById("paragraph").innerHTML = "Error";
+            // failure
+          }
+        );
+      }
+      document.getElementById("request").addEventListener("click", function () {
+        request();
+      });
+    </script>
+  </body>
+</html>
